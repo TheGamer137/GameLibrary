@@ -1,5 +1,14 @@
-# ApricodeTest
-### В приложении реализованы CRUD операции с играми.
+# GameLibrary WebApi
+## Использованные технологии:
+### Для тестирования:
+- FakeItEasy
+- InMemory
+- xUnit
+### Для WebApi:
+- FakeItEasy
+- InMemoryDatabase
+- xUnit
+### В Api реализованы CRUD операции с играми.
 - Создание,
 - Получение списка игр с возможностью фильтрации по жанру,
 - Изменение,
