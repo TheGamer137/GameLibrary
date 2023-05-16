@@ -1,13 +1,17 @@
 # GameLibrary WebApi
-## Использованные технологии:
+## Использованные пакеты:
 ### Для тестирования:
 - FakeItEasy
 - InMemory
 - xUnit
 ### Для WebApi:
-- FakeItEasy
-- InMemoryDatabase
-- xUnit
+- AutoMapper
+- AutoMapper.Extensions.Microsoft.DependencyInjection
+- Microsoft.AspNetCore.OpenApi
+- Microsoft.EntityFrameworkCore.Design
+- Microsoft.EntityFrameworkCore.SqlServer
+- Microsoft.EntityFrameworkCore.Tools
+- Swashbuckle.AspNetCore
 ### В Api реализованы CRUD операции с играми.
 - Создание,
 - Получение списка игр с возможностью фильтрации по жанру,
