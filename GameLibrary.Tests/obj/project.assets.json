@@ -122,6 +122,22 @@
           }
         }
       },
+      "FluentAssertions/6.11.0": {
+        "type": "package",
+        "dependencies": {
+          "System.Configuration.ConfigurationManager": "4.4.0"
+        },
+        "compile": {
+          "lib/net6.0/FluentAssertions.dll": {
+            "related": ".pdb;.xml"
+          }
+        },
+        "runtime": {
+          "lib/net6.0/FluentAssertions.dll": {
+            "related": ".pdb;.xml"
+          }
+        }
+      },
       "Microsoft.AspNetCore.OpenApi/7.0.5": {
         "type": "package",
         "dependencies": {
@@ -1485,7 +1501,7 @@
           "System.Security.Permissions": "5.0.0"
         },
         "compile": {
-          "ref/netstandard2.0/_._": {
+          "ref/netstandard2.0/System.Configuration.ConfigurationManager.dll": {
             "related": ".xml"
           }
         },
@@ -1597,7 +1613,7 @@
           "Microsoft.Win32.SystemEvents": "5.0.0"
         },
         "compile": {
-          "ref/netcoreapp3.0/_._": {
+          "ref/netcoreapp3.0/System.Drawing.Common.dll": {
             "related": ".xml"
           }
         },
@@ -2270,7 +2286,7 @@
           "System.Security.Principal.Windows": "5.0.0"
         },
         "compile": {
-          "ref/netstandard2.0/_._": {
+          "ref/netstandard2.0/System.Security.AccessControl.dll": {
             "related": ".xml"
           }
         },
@@ -2526,7 +2542,7 @@
           "System.Windows.Extensions": "5.0.0"
         },
         "compile": {
-          "ref/net5.0/_._": {
+          "ref/net5.0/System.Security.Permissions.dll": {
             "related": ".xml"
           }
         },
@@ -2539,7 +2555,7 @@
       "System.Security.Principal.Windows/5.0.0": {
         "type": "package",
         "compile": {
-          "ref/netcoreapp3.0/_._": {
+          "ref/netcoreapp3.0/System.Security.Principal.Windows.dll": {
             "related": ".xml"
           }
         },
@@ -2702,7 +2718,7 @@
           "System.Drawing.Common": "5.0.0"
         },
         "compile": {
-          "ref/netcoreapp3.0/_._": {
+          "ref/netcoreapp3.0/System.Windows.Extensions.dll": {
             "related": ".xml"
           }
         },
@@ -3081,6 +3097,36 @@
         "lib/netstandard2.0/FakeItEasy.xml",
         "lib/netstandard2.1/FakeItEasy.dll",
         "lib/netstandard2.1/FakeItEasy.xml"
+      ]
+    },
+    "FluentAssertions/6.11.0": {
+      "sha512": "aBaagwdNtVKkug1F3imGXUlmoBd8ZUZX8oQ5niThaJhF79SpESe1Gzq7OFuZkQdKD5Pa4Mone+jrbas873AT4g==",
+      "type": "package",
+      "path": "fluentassertions/6.11.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "FluentAssertions.png",
+        "fluentassertions.6.11.0.nupkg.sha512",
+        "fluentassertions.nuspec",
+        "lib/net47/FluentAssertions.dll",
+        "lib/net47/FluentAssertions.pdb",
+        "lib/net47/FluentAssertions.xml",
+        "lib/net6.0/FluentAssertions.dll",
+        "lib/net6.0/FluentAssertions.pdb",
+        "lib/net6.0/FluentAssertions.xml",
+        "lib/netcoreapp2.1/FluentAssertions.dll",
+        "lib/netcoreapp2.1/FluentAssertions.pdb",
+        "lib/netcoreapp2.1/FluentAssertions.xml",
+        "lib/netcoreapp3.0/FluentAssertions.dll",
+        "lib/netcoreapp3.0/FluentAssertions.pdb",
+        "lib/netcoreapp3.0/FluentAssertions.xml",
+        "lib/netstandard2.0/FluentAssertions.dll",
+        "lib/netstandard2.0/FluentAssertions.pdb",
+        "lib/netstandard2.0/FluentAssertions.xml",
+        "lib/netstandard2.1/FluentAssertions.dll",
+        "lib/netstandard2.1/FluentAssertions.pdb",
+        "lib/netstandard2.1/FluentAssertions.xml"
       ]
     },
     "Microsoft.AspNetCore.OpenApi/7.0.5": {
@@ -8986,6 +9032,7 @@
   "projectFileDependencyGroups": {
     "net7.0": [
       "FakeItEasy >= 7.4.0",
+      "FluentAssertions >= 6.11.0",
       "GameLibrary.WebApi >= 1.0.0",
       "Microsoft.EntityFrameworkCore.InMemory >= 7.0.5",
       "Microsoft.NET.Test.Sdk >= 17.5.0",
@@ -8995,23 +9042,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\krashennikov_aa\\.nuget\\packages\\": {},
+    "C:\\Users\\blood\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\GameLibrary\\GameLibrary.Tests\\GameLibrary.Tests.csproj",
+      "projectUniqueName": "C:\\MyProjects\\C#\\GameLibrary\\GameLibrary.Tests\\GameLibrary.Tests.csproj",
       "projectName": "GameLibrary.Tests",
-      "projectPath": "D:\\GameLibrary\\GameLibrary.Tests\\GameLibrary.Tests.csproj",
-      "packagesPath": "C:\\Users\\krashennikov_aa\\.nuget\\packages\\",
-      "outputPath": "D:\\GameLibrary\\GameLibrary.Tests\\obj\\",
+      "projectPath": "C:\\MyProjects\\C#\\GameLibrary\\GameLibrary.Tests\\GameLibrary.Tests.csproj",
+      "packagesPath": "C:\\Users\\blood\\.nuget\\packages\\",
+      "outputPath": "C:\\MyProjects\\C#\\GameLibrary\\GameLibrary.Tests\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\krashennikov_aa\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\blood\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -9020,14 +9067,15 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net7.0": {
           "targetAlias": "net7.0",
           "projectReferences": {
-            "D:\\GameLibrary\\GameLibrary.WebApi\\GameLibrary.WebApi.csproj": {
-              "projectPath": "D:\\GameLibrary\\GameLibrary.WebApi\\GameLibrary.WebApi.csproj"
+            "C:\\MyProjects\\C#\\GameLibrary\\GameLibrary.WebApi\\GameLibrary.WebApi.csproj": {
+              "projectPath": "C:\\MyProjects\\C#\\GameLibrary\\GameLibrary.WebApi\\GameLibrary.WebApi.csproj"
             }
           }
         }
@@ -9045,6 +9093,10 @@
           "FakeItEasy": {
             "target": "Package",
             "version": "[7.4.0, )"
+          },
+          "FluentAssertions": {
+            "target": "Package",
+            "version": "[6.11.0, )"
           },
           "Microsoft.EntityFrameworkCore.InMemory": {
             "target": "Package",
@@ -9087,7 +9139,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.203\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.302\\RuntimeIdentifierGraph.json"
       }
     }
   }

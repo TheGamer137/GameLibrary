@@ -1,92 +1,76 @@
 ﻿using AutoMapper;
-using GameLibrary.WebApi.ViewModels;
 using GameLibrary.WebApi.Interfaces;
 using GameLibrary.WebApi.Models;
-using GameLibrary.WebApi.Repositories;
-using Microsoft.AspNetCore.Http;
+using GameLibrary.WebApi.ViewModels;
 using Microsoft.AspNetCore.Mvc;
-using System.Linq;
-using Microsoft.IdentityModel.Tokens;
 
-namespace GameLibrary.WebApi.Controllers
+namespace GameLibrary.WebApi.Controllers;
+
+[ApiController]
+[Route("[controller]")]
+public class GamesController : ControllerBase
 {
-    [ApiController]
-    [Route("[controller]")]
-    public class GamesController : ControllerBase
+    private readonly IGameRepository _gameRepository;
+    private readonly IMapper _mapper;
+
+    public GamesController(IGameRepository gameRepository, IMapper mapper)
     {
-        private readonly IGameRepository _gameRepository;
-        private readonly IMapper _mapper;
-        public GamesController(IGameRepository gameRepository, IMapper mapper)
-        {
-            _gameRepository = gameRepository;
-            _mapper = mapper;
-        }
+        _gameRepository = gameRepository;
+        _mapper = mapper;
+    }
 
-        [HttpGet("GetGames")]
-        public IActionResult GetGames()
-        {
-            var games = _gameRepository.GetAllGames();
+    [HttpGet("GetGames")]
+    public async Task<IActionResult> GetGames()
+    {
+        var games = await _gameRepository.GetAllGames();
 
-            if (games.Any())
-                return Ok(_mapper.Map<IEnumerable<GameVM>>(games));
+        if (games.Any())
+            return Ok(_mapper.Map<IEnumerable<GameVM>>(games));
 
-            return NotFound();
-        }
+        return NotFound();
+    }
 
-        [HttpPost("Create")]
-        public IActionResult Create(GameVM gameVM)
-        {
-            Game game = _mapper.Map<Game>(gameVM);
-            if (ModelState.IsValid)
-            {
-                _gameRepository.SaveGame(game);
-                return Ok(_mapper.Map<GameVM>(game));
-            }
+    [HttpPost("Create")]
+    public async Task<IActionResult> Create(GameVM gameVM)
+    {
+        if (!ModelState.IsValid)
             return BadRequest(ModelState);
-        }
-        [HttpPut("Update")]
-        public IActionResult Update(int gameId, GameVM gameVM)
-        {
-            var existingGame = _gameRepository.GetGameById(gameId);
-            if (existingGame != null)
-            {
-                _mapper.Map(gameVM, existingGame);
-                if (ModelState.IsValid)
-                {
-                    _gameRepository.SaveGame(existingGame);
-                    return Ok(_mapper.Map<GameVM>(existingGame));
-                }
-                return BadRequest(ModelState);
-            }
-            return NotFound();
-        }
+        var game = _mapper.Map<Game>(gameVM);
+        await _gameRepository.SaveGame(game);
+        return Ok(_mapper.Map<GameVM>(game));
+    }
 
-        [HttpDelete]
-        public IActionResult Delete(int id)
-        {
-            var game = _gameRepository.GetGameById(id);
-            if (game != null)
-            {
-                _gameRepository.DeleteGame(game);
-                return Ok($"Игра {game.GameName} удалена");
-            }
+    [HttpPut("Update")]
+    public async Task<IActionResult> Update(int gameId, GameVM gameVM)
+    {
+        var existingGame = await _gameRepository.GetGameById(gameId);
+        if (existingGame == null)
             return NotFound();
-        }
+        
+        _mapper.Map(gameVM, existingGame);
 
-        [HttpGet("GetGamesByGenre")]
-        public IActionResult GetGamesByGenre(string genre)
-        {
-            if (genre!=null)
-            {
-                var games = _gameRepository.GetGamesByGenre(genre);
-                if (games.Any())
-                {
-                    var map = _mapper.Map<IEnumerable<GameVM>>(games);
-                    return Ok(map.Select(g=>g.GameName));
-                }
-                return NotFound();
-            }
-            return BadRequest();
-        }
+        await _gameRepository.SaveGame(existingGame);
+        return NoContent();
+    }
+
+    [HttpDelete("Delete")]
+    public async Task<IActionResult> Delete(int id)
+    {
+        var game = await _gameRepository.GetGameById(id);
+        if (game == null)
+            return NotFound();
+
+        await _gameRepository.DeleteGame(game);
+
+        return NoContent();
+    }
+
+    [HttpGet("GetGamesByGenre")]
+    public async Task<IActionResult> GetGamesByGenre(string genreName)
+    {
+        var games = await _gameRepository.GetGamesByGenre(genreName);
+        if (!games.Any())
+            return NotFound();
+        return Ok(games.Select(g => g.GameName));
     }
 }

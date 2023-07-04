@@ -463,3 +463,4 @@ D:\GameLibrary\GameLibrary.Tests\obj\Debug\net7.0\refint\GameLibrary.Tests.dll
 D:\GameLibrary\GameLibrary.Tests\obj\Debug\net7.0\GameLibrary.Tests.pdb
 D:\GameLibrary\GameLibrary.Tests\obj\Debug\net7.0\GameLibrary.Tests.genruntimeconfig.cache
 D:\GameLibrary\GameLibrary.Tests\obj\Debug\net7.0\ref\GameLibrary.Tests.dll
+C:\MyProjects\C#\GameLibrary\GameLibrary.Tests\bin\Debug\net7.0\FluentAssertions.dll

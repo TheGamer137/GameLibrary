@@ -3,63 +3,100 @@ using GameLibrary.WebApi.Interfaces;
 using GameLibrary.WebApi.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace GameLibrary.WebApi.Repositories
+namespace GameLibrary.WebApi.Repositories;
+
+public class GameRepository : IGameRepository
 {
-    public class GameRepository : IGameRepository
+    private readonly AppDbContext _dbContext;
+
+    public GameRepository(AppDbContext dbContext)
     {
-        private readonly AppDbContext _dbContext;
-        public GameRepository(AppDbContext dbContext)
+        _dbContext = dbContext;
+    }
+
+    public async Task SaveGame(Game game)
+    {
+        try
         {
-            _dbContext = dbContext;
-        }
-        public void SaveGame(Game game)
-        {
-            var gameExists = _dbContext.Games.Any(g => g.GameName.Contains(game.GameName));
-            if (gameExists.Equals(true))
-                throw new Exception("Такая игра уже есть в базе данных");
-            var studioExists = _dbContext.DeveloperStudios.Any(g => g.Name.Contains(game.DeveloperStudio.Name));
-            if (studioExists.Equals(true))
-                game.DeveloperStudio = GetDeveloperStudioByName(game.DeveloperStudio.Name);
-            var genresInGame = game.GameGenres.Select(g => g.Genre);
-            foreach (var genre in genresInGame)
+            var existingStudio = await GetDeveloperStudioByName(game.DeveloperStudio.Name);
+            if (existingStudio != null)
+                game.DeveloperStudio = existingStudio;
+            foreach (var gameGenre in game.GameGenres)
             {
-                var genreExists =  _dbContext.Genres.Any(g => g.GenreName.Contains(genre.GenreName));
-                if (genreExists.Equals(true))
-                {
-                    genre.GenreId = GetGenreByName(genre.GenreName).GenreId;
-                    genre.GenreName = GetGenreByName(genre.GenreName).GenreName;
-                }
+                var existingGenre = await GetGenreByName(gameGenre.Genre.GenreName);
+                if (existingGenre != null) gameGenre.Genre = existingGenre;
             }
+
             if (game.Id > 0)
-            {
                 _dbContext.Update(game);
-            }
             else
                 _dbContext.Games.Add(game);
-            _dbContext.SaveChanges();
+            await _dbContext.SaveChangesAsync();
         }
-
-        private Genre GetGenreByName(string genreName) =>
-            _dbContext.Genres.FirstOrDefault(g => g.GenreName == genreName);
-
-        private DeveloperStudio GetDeveloperStudioByName(string studioName) => 
-            _dbContext.DeveloperStudios.FirstOrDefault(d => d.Name == studioName);
-
-        public void DeleteGame(Game game)
+        catch (Exception ex)
         {
-            _dbContext.Games.Remove(game);
-            _dbContext.SaveChanges();
+            throw new Exception("Не удалось сохранить игру", ex);
+        }
+    }
+
+    public async Task DeleteGame(Game game)
+    {
+        _dbContext.Games.Remove(game);
+        await _dbContext.SaveChangesAsync();
+    }
+
+    public async Task<IEnumerable<Game>> GetAllGames()
+    {
+        var games = await _dbContext.Games.ToListAsync();
+        foreach (var game in games)
+        {
+            await _dbContext.Entry(game)
+                .Reference(g => g.DeveloperStudio)
+                .LoadAsync();
+
+            await _dbContext.Entry(game)
+                .Collection(g => g.GameGenres)
+                .Query()
+                .Include(gg => gg.Genre)
+                .LoadAsync();
         }
 
-        public IEnumerable<Game> GetAllGames() => _dbContext.Games.Include(g => g.DeveloperStudio)
-            .Include(g => g.GameGenres).ThenInclude(gg => gg.Genre);
+        return games;
+    }
 
-        public Game? GetGameById(int id) => 
-            _dbContext.Games.Include(g => g.DeveloperStudio).Include(g => g.GameGenres)
-            .ThenInclude(gg => gg.Genre).FirstOrDefault(g => g.Id == id);
+    public async Task<Game?> GetGameById(int id)
+    {
+        var game = await _dbContext.Games.FindAsync(id);
+        if (game != null)
+        {
+            await _dbContext.Entry(game)
+                .Reference(g => g.DeveloperStudio)
+                .LoadAsync();
 
-        public IEnumerable<Game> GetGamesByGenre(string genreName) => 
-            _dbContext.Games.Where(g => g.GameGenres.Any(gg => gg.Genre.GenreName.ToLower() == genreName.ToLower()));
+            await _dbContext.Entry(game)
+                .Collection(g => g.GameGenres)
+                .Query()
+                .Include(gg => gg.Genre)
+                .LoadAsync();
+        }
 
+        return game;
+    }
+
+    public async Task<IEnumerable<Game>?> GetGamesByGenre(string genreName)
+    {
+        return await _dbContext.Games
+            .Where(g => g.GameGenres.Any(gg => gg.Genre.GenreName.ToLower() == genreName.ToLower()))
+            .ToListAsync();
+    }
+
+    private async Task<Genre?> GetGenreByName(string genreName)
+    {
+        return await _dbContext.Genres.FirstOrDefaultAsync(g => g.GenreName == genreName);
+    }
+
+    private async Task<DeveloperStudio?> GetDeveloperStudioByName(string studioName)
+    {
+        return await _dbContext.DeveloperStudios.FirstOrDefaultAsync(d => d.Name == studioName);
     }
 }

@@ -9,6 +9,7 @@
       "GameLibrary.Tests/1.0.0": {
         "dependencies": {
           "FakeItEasy": "7.4.0",
+          "FluentAssertions": "6.11.0",
           "GameLibrary.WebApi": "1.0.0",
           "Microsoft.EntityFrameworkCore.InMemory": "7.0.5",
           "Microsoft.NET.Test.Sdk": "17.5.0",
@@ -106,6 +107,17 @@
           "lib/net5.0/FakeItEasy.dll": {
             "assemblyVersion": "7.0.0.0",
             "fileVersion": "7.4.0.0"
+          }
+        }
+      },
+      "FluentAssertions/6.11.0": {
+        "dependencies": {
+          "System.Configuration.ConfigurationManager": "5.0.0"
+        },
+        "runtime": {
+          "lib/net6.0/FluentAssertions.dll": {
+            "assemblyVersion": "6.11.0.0",
+            "fileVersion": "6.11.0.0"
           }
         }
       },
@@ -1743,6 +1755,13 @@
       "sha512": "sha512-HSa4UIg3LbjzuTaYOGsxPlTFdPa1sv9yrbAPF8D68FcGjFquIrnXalzT6n8iJhc1kXkMndB82uNcz/naQ3kCgw==",
       "path": "fakeiteasy/7.4.0",
       "hashPath": "fakeiteasy.7.4.0.nupkg.sha512"
+    },
+    "FluentAssertions/6.11.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-aBaagwdNtVKkug1F3imGXUlmoBd8ZUZX8oQ5niThaJhF79SpESe1Gzq7OFuZkQdKD5Pa4Mone+jrbas873AT4g==",
+      "path": "fluentassertions/6.11.0",
+      "hashPath": "fluentassertions.6.11.0.nupkg.sha512"
     },
     "Microsoft.AspNetCore.OpenApi/7.0.5": {
       "type": "package",
